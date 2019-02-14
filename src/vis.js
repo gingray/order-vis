@@ -1,36 +1,83 @@
 import * as d3 from "d3";
+import transform from 'lodash/transform'
+import {Beautifier} from "./beautifier";
 
 export class Vis {
     constructor(data) {
         this.data = data;
-        this.columns = [{header: 'Number', key:'order.number'},{header: 'State', key:'order.state'}, { header: 'Payments', key:'payments'}]
     }
 
     render() {
-        const table = d3.select("table.table");
-        const thead = table.append('thead');
-        const tbody = table.append('tbody');
+        const container = d3.select('.vis');
+        this.createTabs(container, this.data);
+    }
 
-        thead.append('tr')
-            .selectAll('th')
-            .data(this.columns)
+    getTabs(item, key) {
+        const val = this.data[key];
+        const orderId = val.order.id;
+
+        const x = transform(val, (result, val, key) => {
+            result.push({name: key, id: orderId});
+        }, []);
+        return x;
+    }
+
+    createTabs(container, data) {
+        const tabContainer = container
+            .selectAll('div')
+            .data(data)
             .enter()
-            .append('th')
-            .text(function (column) { return column.header; });
+            .append('div')
+            .attr('class', 'row')
+            .append('div')
+            .attr('class','col-md-12');
 
-        const rows = tbody.selectAll('tr')
-            .data(this.data)
+        tabContainer
+            .append('ul')
+            .attr("class", "nav nav-tabs")
+            .attr('id', (item) => { return `order-tab-${item.order.id}` })
+            .selectAll('li')
+            .data(this.getTabs.bind(this))
             .enter()
-            .append('tr')
-
-        rows.selectAll('tr')
-            .data((item) => {
-                console.log(item);
-                return [item.order.state, item.order.number, item.payments ]
+            .append('li')
+            .attr('class', 'nav-item')
+            .append('a')
+            .attr('class', 'nav-link')
+            .attr('data-toggle', 'tab')
+            .attr('href', (item) => {
+                return `#${item.name}-${item.id}`
             })
-            .enter()
-            .append('td')
-            .text((item) => { return item })
-        console.log(this.data);
+            .attr('id', (item) => { return `${item.name}-${item.id}-tab` })
+            .text((item)=> { return item.name; });
+        this.createTabBody(tabContainer, data);
+    }
+
+    createTabBody(container, data) {
+            container
+            .append('div')
+            .attr('class', 'tab-content')
+            .selectAll('div')
+                .data(function(val){
+                    const orderId = val.order.id;
+                    const result = transform(val, (result, val, key) => {
+                        result.push({name: key, id: orderId, val: val});
+                    }, []);
+                    console.log(result);
+                    return result
+                })
+                .enter()
+                .append('div')
+                .attr('class', (item)=> {
+                    const klass = item.name === 'order' ? 'active' : '';
+                    return `tab-pane fade show  ${klass}`
+                })
+                .attr('id', (item) => {
+                    return `${item.name}-${item.id}`
+                })
+                .append('div')
+                .append('pre')
+                .append('code')
+                .html((item) => {return new Beautifier().prettyPrint(item.val)})
+
     }
 }
