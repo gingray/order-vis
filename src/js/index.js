@@ -1,8 +1,8 @@
 import * as d3 from "d3";
 import transform from 'lodash/transform'
 import 'handlebars/dist/amd/handlebars.js'
-import orderTemplate from '../templates/order.handlebars'
-import paymentsTemplate from '../templates/payment.handlebars'
+import tabContentTemplate from '../templates/content.hbs'
+import {shapeData} from './utils'
 
 
 export class Vis {
@@ -53,34 +53,13 @@ export class Vis {
             })
             .attr('id', (item) => { return `${item.name}-${item.id}-tab` })
             .text((item)=> { return item.name; });
-        this.createTabBody(tabContainer, data);
-    }
-
-    createTabBody(container, data) {
-            container
+        tabContainer
             .append('div')
-            .attr('class', 'tab-content')
-            .selectAll('div')
-                .data(function(val){
-                    const orderId = val.order.id;
-                    return transform(val, (result, val, key) => {
-                        result.push({name: key, id: orderId, val: val});
-                    }, []);
-                })
-                .enter()
-                .append('div')
-                .attr('class', (item)=> {
-                    const klass = item.name === 'order' ? 'active' : '';
-                    return `tab-pane fade show  ${klass}`
-                })
-                .attr('id', (item) => {
-                    return `${item.name}-${item.id}`
-                })
-                .append('div')
-                .html((item) => {
-                    if (item.name === 'order') return orderTemplate(item.val)
-                    return paymentsTemplate({json:item.val})
-                })
-
+            .html((item, i1,i2) => {
+                console.log(item, i1,i2);
+                const context = {order: item.order};
+                return tabContentTemplate(context);
+            });
     }
+
 }

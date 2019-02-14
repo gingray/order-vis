@@ -1,6 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const autoprefixer = require('autoprefixer');
 const precss = require('precss');
 
@@ -26,36 +26,25 @@ module.exports = {
         {
           test: /\.css$/, use: ['style-loader', 'css-loader', 'postcss-loader']
         },
-        { test: /\.handlebars$/, loader: "handlebars-loader" },
-
+        { test: /\.hbs$/, loader: "handlebars-loader" },
         {
-          test: /\.(scss)$/,
-          use: ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: [
-              {
-                loader: 'css-loader', // translates CSS into CommonJS modules
-              }, {
-                loader: 'postcss-loader', // Run post css actions
-                options: {
-                  plugins() {
-                    // post css plugins, can be exported to postcss.config.js
-                    return [
-                      precss,
-                      autoprefixer
-                    ];
-                  }
-                }
-              }, {
-                loader: 'sass-loader' // compiles SASS to CSS
-              }
-            ]
-          })
-        }
+          test: /\.(sa|sc|c)ss$/,
+          use: [
+            'style-loader',
+            'css-loader',
+            'postcss-loader',
+            'sass-loader',
+          ],
+        },
       ]
     },
     plugins: [
-        new ExtractTextPlugin('main.css'),
+      new MiniCssExtractPlugin({
+        // Options similar to the same options in webpackOptions.output
+        // both options are optional
+        filename: '[name].css' ,
+        chunkFilename: '[id].css',
+      }),
         new HtmlWebpackPlugin({
             hash: true,
             template: './index.html',

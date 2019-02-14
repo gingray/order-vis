@@ -1,0 +1,16 @@
+<div class="tab-content" >
+    <div class="tab-pane fade show active order" id="order-{{order.id}}" role="tabpanel" aria-labelledby="home-tab">
+        <div class="row">
+            {{#each order}}
+                <div class="col-md-4">
+                    <div>
+                        <div class="key">{{@key}}</div> <div class="value">{{this}}</div>
+                    </div>
+                </div>
+            {{/each}}
+        </div>
+
+    </div>
+    <div class="tab-pane fade" id="user-{{order.id}}" role="tabpanel" aria-labelledby="profile-tab">xxx</div>
+    <div class="tab-pane fade" id="payments-{{order.id}}" role="tabpanel" aria-labelledby="contact-tab">yyy</div>
+</div>
