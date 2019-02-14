@@ -1,16 +1,14 @@
 import * as d3 from "d3";
 import transform from 'lodash/transform'
-import {Beautifier} from "./beautifier";
-import Handlebars from 'handlebars/dist/amd/handlebars.js'
+import 'handlebars/dist/amd/handlebars.js'
+import orderTemplate from '../templates/order.handlebars'
+import paymentsTemplate from '../templates/payment.handlebars'
 
 
 export class Vis {
     constructor(data) {
         this.data = data;
-        console.log(Handlebars);
-        this.orderTemplate = Handlebars.compile(document.getElementById("order-template").innerHTML);
-        this.otherTemplate = Handlebars.compile(document.getElementById("other-template").innerHTML);
-
+        console.log(data);
     }
 
     render() {
@@ -65,11 +63,9 @@ export class Vis {
             .selectAll('div')
                 .data(function(val){
                     const orderId = val.order.id;
-                    const result = transform(val, (result, val, key) => {
+                    return transform(val, (result, val, key) => {
                         result.push({name: key, id: orderId, val: val});
                     }, []);
-                    console.log(result);
-                    return result
                 })
                 .enter()
                 .append('div')
@@ -82,11 +78,8 @@ export class Vis {
                 })
                 .append('div')
                 .html((item) => {
-                    if (item.name === 'order') {
-                        return this.orderTemplate(item.val)
-                    }
-                    const json = new Beautifier().prettyPrint(item.val);
-                    return this.otherTemplate({json:json})
+                    if (item.name === 'order') return orderTemplate(item.val)
+                    return paymentsTemplate({json:item.val})
                 })
 
     }
