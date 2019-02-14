@@ -1,10 +1,16 @@
 import * as d3 from "d3";
 import transform from 'lodash/transform'
 import {Beautifier} from "./beautifier";
+import Handlebars from 'handlebars/dist/amd/handlebars.js'
+
 
 export class Vis {
     constructor(data) {
         this.data = data;
+        console.log(Handlebars);
+        this.orderTemplate = Handlebars.compile(document.getElementById("order-template").innerHTML);
+        this.otherTemplate = Handlebars.compile(document.getElementById("other-template").innerHTML);
+
     }
 
     render() {
@@ -75,9 +81,13 @@ export class Vis {
                     return `${item.name}-${item.id}`
                 })
                 .append('div')
-                .append('pre')
-                .append('code')
-                .html((item) => {return new Beautifier().prettyPrint(item.val)})
+                .html((item) => {
+                    if (item.name === 'order') {
+                        return this.orderTemplate(item.val)
+                    }
+                    const json = new Beautifier().prettyPrint(item.val);
+                    return this.otherTemplate({json:json})
+                })
 
     }
 }

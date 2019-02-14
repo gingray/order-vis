@@ -8,6 +8,20 @@
 
   </head>
   <body>
+  <script id="order-template" type="text/x-handlebars-template">
+      <div class="order">
+          <div class="number">{{number}}</div>
+          <div class="status">{{state}} </div>
+      </div>
+  </script>
+
+  <script id="other-template" type="text/x-handlebars-template">
+    <pre>
+        <code>
+            {{{json}}}
+        </code>
+    </pre>
+  </script>
   <style>
     pre {
       background-color: ghostwhite;
