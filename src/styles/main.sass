@@ -1,10 +1,19 @@
-.tab-content
-  .order
-    .key, .value
-      display: inline-block
-      width: 48%
+@import "varablies"
+.order-container
+  width: 100%
+  padding: $medium-margin
+  margin: $medium-margin 0
+  background-color: lighten(#dff9fb, 5%)
+  .id, .number, .state, .created-at, .updated-at, .shipment-status, .method, .source, .status
+    display: inline-block
+    width: 33%
+    padding: $small-margin
 
-    .key
-      text-align: left
-    .value
-      text-align: right
+  .header, .order-deatils
+    margin: $small-margin 0
+
+  .state, .shipment-status
+    color: white
+    background-color: #535c68
+    &.complete, &.shipped
+      background-color: #badc58

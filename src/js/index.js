@@ -32,33 +32,8 @@ export class Vis {
             .data(data)
             .enter()
             .append('div')
-            .attr('class', 'row')
-            .append('div')
-            .attr('class','col-md-12');
-
-        tabContainer
-            .append('ul')
-            .attr("class", "nav nav-tabs")
-            .attr('id', (item) => { return `order-tab-${item.order.id}` })
-            .selectAll('li')
-            .data(this.getTabs.bind(this))
-            .enter()
-            .append('li')
-            .attr('class', 'nav-item')
-            .append('a')
-            .attr('class', 'nav-link')
-            .attr('data-toggle', 'tab')
-            .attr('href', (item) => {
-                return `#${item.name}-${item.id}`
-            })
-            .attr('id', (item) => { return `${item.name}-${item.id}-tab` })
-            .text((item)=> { return item.name; });
-        tabContainer
-            .append('div')
             .html((item, i1,i2) => {
-                console.log(item, i1,i2);
-                const context = {order: item.order};
-                return tabContentTemplate(context);
+                return tabContentTemplate(item);
             });
     }
 
