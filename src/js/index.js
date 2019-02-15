@@ -1,40 +1,32 @@
-import * as d3 from "d3";
-import transform from 'lodash/transform'
+import each from 'lodash/each'
+import $ from 'jquery'
 import 'handlebars/dist/amd/handlebars.js'
 import tabContentTemplate from '../templates/content.hbs'
-import {shapeData} from './utils'
+import {prepareDataFromOrder} from "./utils";
 
 
 export class Vis {
     constructor(data) {
         this.data = data;
-        console.log(data);
     }
 
     render() {
-        const container = d3.select('.vis');
+        const container = $('.vis');
         this.createTabs(container, this.data);
     }
 
-    getTabs(item, key) {
-        const val = this.data[key];
-        const orderId = val.order.id;
-
-        const x = transform(val, (result, val, key) => {
-            result.push({name: key, id: orderId});
-        }, []);
-        return x;
-    }
-
     createTabs(container, data) {
-        const tabContainer = container
-            .selectAll('div')
-            .data(data)
-            .enter()
-            .append('div')
-            .html((item, i1,i2) => {
-                return tabContentTemplate(item);
-            });
+        each(data, (item) => {
+            const element = $(tabContentTemplate(prepareDataFromOrder(item)));
+            element.data('order', item);
+            return container.append(element);
+        });
+
+        $('.order-container .show-data-in-console').on('click', function (item) {
+            const container = $(item.currentTarget).closest('.order-container');
+            const data = container.data('order');
+            console.log(data);
+        });
     }
 
 }

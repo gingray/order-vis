@@ -1,19 +1,64 @@
 @import "varablies"
 .order-container
   width: 100%
-  padding: $medium-margin
-  margin: $medium-margin 0
-  background-color: lighten(#dff9fb, 5%)
-  .id, .number, .state, .created-at, .updated-at, .shipment-status, .method, .source, .status
+  margin: $large-margin 0
+  background-color: #f6e58d
+  padding: $small-margin 5px
+
+  //.id, .number, .state, .created-at, .updated-at, .shipment-status, .method, .source, .status
+  //  display: inline-block
+  //  width: 24%
+  //  padding: $small-margin
+
+  .header-item, .cell-item
     display: inline-block
-    width: 33%
+    width: 24%
     padding: $small-margin
 
-  .header, .order-deatils
-    margin: $small-margin 0
+  .content
+    background-color: white
+  .payment-method-value
+    color: #6ab04c
 
-  .state, .shipment-status
-    color: white
-    background-color: #535c68
-    &.complete, &.shipped
-      background-color: #badc58
+  .header, .order-details
+    margin: $small-margin 0
+    padding: $small-margin
+    &:first-child
+      margin: 0
+
+  .value
+    color: #535c68
+    text-transform: uppercase
+    font-weight: bolder
+    &.complete, &.shipped, &.completed, &.paid
+      color: #badc58
+    &.failed, &.invalid
+      color: #eb4d4b
+
+  .payments-block, .order-block
+    margin-top: $large-margin
+    color: #95afc0
+    &:first-child
+      margin-top: 0
+    .header
+      text-transform: uppercase
+      color: white
+      background-color: #95afc0
+      padding: $medium-margin
+
+  .payment-state-changes
+    overflow-x: auto
+    overflow-y: hidden
+    white-space: nowrap
+    padding: $medium-margin 0 50px $medium-margin
+    touch-action: none
+
+    .payment-state-container
+      width: 20%
+      display: inline-block
+      margin-right: 4%
+      border: 1px solid #686de0
+      padding: $medium-margin
+
+  .action-btns
+    padding: $medium-margin

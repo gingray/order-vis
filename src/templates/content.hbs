@@ -1,20 +1,54 @@
 <div class="order-container">
-    <div class="header">
-        <div class="id">Order ID: {{order.id}}</div>
-        <div class="number"> Order Number: <a target="_blank" href="https://shop.goop.com/shop/admin/orders/{{order.number}}/edit">{{order.number}}</a></div>
-        <div class="state {{order.state}}"> Order State: {{order.state }}</div>
-    </div>
-    <div class="order-deatils">
-        <div class="created-at">Created At: {{order.created_at}}</div>
-        <div class="updated-at"> Updated At: {{order.updated_at}}</div>
-        <div class="shipment-status {{order.shipment_state}}">Shipment Status: {{order.shipment_state}}</div>
-    </div>
-    {{#each payments}}
-        <div class="payment">
-            <div class="method">Payment Method: {{method.name}} </div>
-            <div class="source"> </div>
-            <div class="status ">Payment State: {{payment.state}} </div>
-        </div>
-    {{/each}}
+    <div class="content">
+        <div class="order-block">
+            <div class="header">
+                <div class="header-item">Order Details</div>
+                <div class="header-item id">Order ID: {{order.id}}</div>
+                <div class="header-item number"> Order Number: <a target="_blank" href="https://shop.goop.com/shop/admin/orders/{{order.number}}/edit">{{order.number}}</a></div>
+                <div class="header-item state"> Order State: <span class="value {{order.state}}">{{order.state }}</span></div>
+            </div>
+            <div class="order-details">
+                <div class="shipment-status cell-item">Shipment Status: <span class="value {{order.shipment_state}}">{{order.shipment_state}}</span></div>
+                <div class="created-at cell-item">Payment State: <span class="value {{order.payment_state}}">{{order.payment_state}}</span></div>
+                <div class="created-at cell-item">Created At: <span class="value time">{{order.created_at}}</span></div>
+                <div class="updated-at cell-item"> Updated At: <span class="value time">{{order.updated_at}}</span></div>
+            </div>
+            <div class="payments-block">
+                {{#each payments}}
+                    <div class="header">
+                        <div class="header-item"> Payment Details </div>
+                        <div class="header-item id">Payment ID: {{id}}</div>
+                        <div class="header-item number"> Payment Number: <a target="_blank" href="https://shop.goop.com/shop/admin/orders/{{@root.order.number}}/payments/{{number}}">{{number}}</a></div>
+                        <div class="header-item state"> Payment State: <span class="value {{state}}">{{state}}</span></div>
+                    </div>
+                    <div class="payment">
+                        <div class="method cell-item">Payment Method: <span class="payment-method-value">{{method_name}}</span> </div>
+                        <div class="source cell-item"> Amount: <span class="payment-amount">{{amount}}</span> </div>
+                        <div class="created-at cell-item">Created At: <span class="value time">{{created_at}}</span></div>
+                        <div class="updated-at cell-item"> Updated At: <span class="value time">{{updated_at}}</span></div>
+                        <div class="payment-state-changes">
+                                {{#each state_changes}}
+                                    <div class="payment-state-container">
+                                        <div class="prev-state"> Next State: <span class="value {{next_state}}">{{next_state}}</span> </div>
+                                        <div class="prev-state"> Previous State: <span class="value {{previous_state}}">{{previous_state}}</span> </div>
+                                        <div class="time"> Created At: <span class="value time">{{created_at}}</span> </div>
+                                    </div>
+                                {{/each}}
+                        </div>
+                        <div class="log-entries-for-payment">
 
+                        </div>
+                        <div class="action-btns">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="btn btn-primary btn-block show-data-in-console">Show full data for order in console</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
 </div>
