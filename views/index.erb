@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+<head>
+  <title>Getting Started</title>
+  <link rel="stylesheet" type="text/css" href="main.css" >
+</head>
+<body>
+<div class="container-fluid">
+  <div class="row">
+    <% ids.each do |id| %>
+      <a href="/visual/<%=id %>"> Go to vis</a>
+    <% end %>
+  </div>
+</div>
+<script src="main.js"></script>
+</body>
+</html>

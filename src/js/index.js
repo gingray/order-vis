@@ -8,6 +8,7 @@ import {prepareDataFromOrder} from "./utils";
 export class Vis {
     constructor(data) {
         this.data = data;
+        debugger
     }
 
     render() {

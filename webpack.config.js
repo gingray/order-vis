@@ -7,7 +7,6 @@ const precss = require('precss');
 module.exports = {
   entry: './src/main.js',
   output: {
-    filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist')
   },
     devServer: {
@@ -31,6 +30,7 @@ module.exports = {
           test: /\.(sa|sc|c)ss$/,
           use: [
             'style-loader',
+            MiniCssExtractPlugin.loader,
             'css-loader',
             'postcss-loader',
             'sass-loader',
@@ -42,8 +42,7 @@ module.exports = {
       new MiniCssExtractPlugin({
         // Options similar to the same options in webpackOptions.output
         // both options are optional
-        filename: '[name].css' ,
-        chunkFilename: '[id].css',
+        filename: 'main.css' ,
       }),
         new HtmlWebpackPlugin({
             hash: true,
